@@ -1,14 +1,14 @@
 <!-- Descrever issue -->
 
-<!-- ## What?
+<!-- ## What? -->
 
-## Why?
+<!-- ## Why? -->
 
-## How?
+<!-- ## How? -->
 
-## Screenshots (optional)
+<!-- ## Screenshots (optional) -->
 
-## Anything Else? -->
+<!-- ## Anything Else? -->
 
 - [ ] ...
 
