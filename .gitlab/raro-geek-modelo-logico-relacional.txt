@@ -1,0 +1,96 @@
+State
+-
+id int PK
+name string
+acronym string(2)
+
+City
+-
+id PK int
+state_id FK >- State.id
+name string
+
+Address
+-
+id int PK
+city_id int FK >- City.id
+name string
+public_place string
+number string(15)
+zip_code string(8)
+reference string
+complement string
+
+Supplier
+-
+id int PK
+name string
+cnpj string(14) UNIQUE
+address_id int FK - Address.id
+
+Store
+-
+id int PK
+name string
+cnpj string(14) UNIQUE
+address_id int FK - Address.id
+
+Customer
+-
+id int PK
+name string
+cpf string(11) UNIQUE
+address_id int FK - Address.id
+
+Product
+-
+id int PK
+name string
+price decimal
+description text
+
+Sale
+-
+id int PK
+invoice int UNIQUE
+finished_at datetime
+total_amount decimal
+finished boolean
+store_id int FK >- Store.id
+customer_id int FK -< Customer.id
+
+StoreProduct
+-
+id int PK
+store_id int FK >-< Store.id
+product_id int FK >-< Product.id
+amount int
+
+ProductSupplier
+-
+id int PK
+product_id int FK >-< Product.id
+supplier_id int FK >-< Supplier.id
+
+SaleProduct
+-
+id int PK
+sale_id int FK >-< Sale.id
+product_id int FK >-< Product.id
+amount int
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
