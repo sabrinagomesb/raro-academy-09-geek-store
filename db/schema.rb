@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_08_015825) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_08_021437) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_015825) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sales", force: :cascade do |t|
+    t.bigint "store_id", null: false
+    t.bigint "customer_id", null: false
+    t.datetime "finished_at"
+    t.decimal "total_amount", precision: 10, scale: 2, null: false
+    t.boolean "finished", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_sales_on_customer_id"
+    t.index ["store_id"], name: "index_sales_on_store_id"
+  end
+
   create_table "states", force: :cascade do |t|
     t.string "name", limit: 255, null: false
     t.string "acronym", limit: 2, null: false
@@ -65,4 +77,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_015825) do
 
   add_foreign_key "addresses", "cities"
   add_foreign_key "cities", "states"
+  add_foreign_key "sales", "customers"
+  add_foreign_key "sales", "stores"
 end
