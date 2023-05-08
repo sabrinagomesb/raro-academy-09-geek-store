@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_08_024917) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_08_025744) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_024917) do
     t.string "cpf", limit: 11, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "product_suppliers", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "supplier_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_suppliers_on_product_id"
+    t.index ["supplier_id"], name: "index_product_suppliers_on_supplier_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -85,6 +94,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_024917) do
 
   add_foreign_key "addresses", "cities"
   add_foreign_key "cities", "states"
+  add_foreign_key "product_suppliers", "products"
+  add_foreign_key "product_suppliers", "suppliers"
   add_foreign_key "sales", "customers"
   add_foreign_key "sales", "stores"
 end
