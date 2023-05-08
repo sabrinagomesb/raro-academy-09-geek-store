@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_08_030441) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_08_192617) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -77,6 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_030441) do
     t.boolean "finished", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "invoice", limit: 255, default: "0", null: false
     t.index ["customer_id"], name: "index_sales_on_customer_id"
     t.index ["store_id"], name: "index_sales_on_store_id"
   end
