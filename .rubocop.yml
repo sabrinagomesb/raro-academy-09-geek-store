@@ -9,3 +9,9 @@ Style/StringLiterals:
 
 Style/Documentation:
   Enabled: false
+
+Rails/FilePath:
+  Enabled: false
+
+Rails/Output:
+  Enabled: false
