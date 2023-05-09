@@ -107,7 +107,7 @@ stores.each do |store|
 
   amount_of_sales.times do
     customer = customers.sample
-    invoice = Faker::Number.number(digits: 16).to_s
+    invoice = Faker::Number.number(digits: 10).to_s
     sale = Sale.create(store:, customer:, invoice:)
     amount_of_products = Faker::Number.number(digits: 1)
     amount_of_products.times do
