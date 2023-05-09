@@ -20,27 +20,26 @@ number string(15)
 zip_code string(8)
 reference string
 complement string
+addressable_type int
+addressable_id int
 
 Supplier
 -
 id int PK
 name string
 cnpj string(14) UNIQUE
-address_id int FK - Address.id
 
 Store
 -
 id int PK
 name string
 cnpj string(14) UNIQUE
-address_id int FK - Address.id
 
 Customer
 -
 id int PK
 name string
 cpf string(11) UNIQUE
-address_id int FK - Address.id
 
 Product
 -
@@ -78,19 +77,3 @@ id int PK
 sale_id int FK >-< Sale.id
 product_id int FK >-< Product.id
 amount int
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
