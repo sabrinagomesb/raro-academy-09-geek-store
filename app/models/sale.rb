@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Sale < ApplicationRecord
-  belongs_to :store
-  belongs_to :customer
+  belongs_to :store, inverse_of: :sale
+  belongs_to :customer, inverse_of: :sale
+
+  has_many :sale_products, dependent: :destroy
+  has_many :products, through: :sale_products
 end
