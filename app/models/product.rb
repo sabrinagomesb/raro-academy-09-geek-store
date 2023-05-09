@@ -13,6 +13,6 @@ class Product < ApplicationRecord
   has_many :sales, through: :sale_products
 
   validates :name, :description, presence: true
-  validates :total_price, numericality: { is_greater_than_or_equal_to: 0 }
+  validates :unit_price, numericality: { is_greater_than_or_equal_to: 0 }
   validate :name_allowed_length
 end
