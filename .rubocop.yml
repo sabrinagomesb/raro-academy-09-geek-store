@@ -15,3 +15,9 @@ Rails/FilePath:
 
 Rails/Output:
   Enabled: false
+
+Style/CombinableLoops:
+  Enabled: false
+
+Rails/ReversibleMigration:
+  Enabled: false
