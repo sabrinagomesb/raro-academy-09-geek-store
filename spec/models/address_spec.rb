@@ -105,4 +105,117 @@ RSpec.describe Address do
       expect(address.errors[:addressable]).to include("must exist")
     end
   end
+
+  describe 'Scopes' do
+    context 'when search by_city' do
+      let(:city) { create(:city) }
+      let(:address) { create(:address, city: city) }
+
+      it 'should returns addresses by city' do
+        expect(Address.by_city(city)).to include(address)
+      end
+    end
+
+    context 'when search by_state' do
+      let(:state) { create(:state) }
+      let(:city) { create(:city, state:) }
+      let(:address) { create(:address, city:) }
+
+      it 'should returns addresses by state' do
+        expect(Address.by_state(state)).to include(address)
+      end
+    end
+
+    context 'when search by_zip_code' do
+      let(:address) { create(:address) }
+      let(:address1) { create(:address) }
+
+      it 'shouldreturns addresses by zip_code' do
+        expect(Address.by_zip_code(address.zip_code)).to include(address)
+      end
+
+      it 'should not returns addresses by zip_code' do
+        expect(Address.by_zip_code(address.zip_code)).not_to include(address1)
+      end
+    end
+
+    context 'when search by_public_place' do
+      let(:address) { create(:address) }
+      let(:address1) { create(:address) }
+
+      it 'should returns addresses by public_place' do
+        expect(Address.by_public_place(address.public_place)).to include(address)
+      end
+
+      it 'should not returns addresses by public_place' do
+        expect(Address.by_public_place(address.public_place)).not_to include(address1)
+      end
+    end
+
+    context 'when search by_neighborhood' do
+      let(:address) { create(:address) }
+      let(:address1) { create(:address) }
+
+      it 'should returns addresses by neighborhood' do
+        expect(Address.by_neighborhood(address.neighborhood)).to include(address)
+      end
+
+      it 'should not returns addresses by neighborhood' do
+        expect(Address.by_neighborhood(address.neighborhood)).not_to include(address1)
+      end
+    end
+
+    context 'when search by_number' do
+      let(:address) { create(:address) }
+      let(:address1) { create(:address) }
+
+      it 'should returns addresses by number' do
+        expect(Address.by_number(address.number)).to include(address)
+      end
+
+      it 'should not returns addresses by number' do
+        expect(Address.by_number(address.number)).not_to include(address1)
+      end
+    end
+
+    context 'when search by_reference' do
+      let(:address) { create(:address) }
+      let(:address1) { create(:address) }
+
+      it 'should returns addresses by reference' do
+        expect(Address.by_reference(address.reference)).to include(address)
+      end
+
+      it 'should not returns addresses by reference' do
+        expect(Address.by_reference(address.reference)).not_to include(address1)
+      end
+    end
+
+    context 'when search by_complement' do
+      let(:address) { create(:address) }
+      let(:address1) { create(:address) }
+
+      it 'should returns addresses by complement' do
+        expect(Address.by_complement(address.complement)).to include(address)
+      end
+
+      it 'should not returns addresses by complement' do
+        expect(Address.by_complement(address.complement)).not_to include(address1)
+      end
+    end
+
+    context 'when search by_addressable' do
+      let(:address) { create(:address) }
+      let(:address1) { create(:address) }
+
+      it 'should returns addresses by addressable' do
+        expect(Address.by_addressable(address.addressable)).to include(address)
+      end
+
+      it 'should not returns addresses by addressable' do
+        expect(Address.by_addressable(address.addressable)).not_to include(address1)
+      end
+    end
+
+  end
 end
