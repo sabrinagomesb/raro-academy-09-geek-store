@@ -109,7 +109,7 @@ RSpec.describe Address do
   describe 'Scopes' do
     context 'when search by_city' do
       let(:city) { create(:city) }
-      let(:address) { create(:address, city: city) }
+      let(:address) { create(:address, city:) }
 
       it 'should returns addresses by city' do
         expect(Address.by_city(city)).to include(address)
@@ -216,6 +216,5 @@ RSpec.describe Address do
         expect(Address.by_addressable(address.addressable)).not_to include(address1)
       end
     end
-
   end
 end

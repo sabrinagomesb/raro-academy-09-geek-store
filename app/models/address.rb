@@ -15,14 +15,16 @@ class Address < ApplicationRecord
   validates :reference, :complement, allow_blank: true, length: { maximum: 255 }
 
   scope :by_city, ->(city) { where(city:) }
-  scope :by_state, ->(state) { from('addresses INNER JOIN cities ON addresses.city_id = cities.id').where('cities.state_id = ?', state) }
-  scope :by_zip_code, ->(zip_code) { where(zip_code: zip_code) }
-  scope :by_public_place, ->(public_place) { where(public_place: public_place) }
-  scope :by_number, ->(number) { where(number: number) }
-  scope :by_neighborhood, ->(neighborhood) { where(neighborhood: neighborhood) }
-  scope :by_reference, ->(reference) { where(reference: reference) }
-  scope :by_complement, ->(complement) { where(complement: complement) }
-  scope :by_addressable, ->(addressable) { where(addressable: addressable) }
+  scope :by_state, lambda { |state|
+                     from('addresses INNER JOIN cities ON addresses.city_id = cities.id').where(cities: { state_id: state })
+                   }
+  scope :by_zip_code, ->(zip_code) { where(zip_code:) }
+  scope :by_public_place, ->(public_place) { where(public_place:) }
+  scope :by_number, ->(number) { where(number:) }
+  scope :by_neighborhood, ->(neighborhood) { where(neighborhood:) }
+  scope :by_reference, ->(reference) { where(reference:) }
+  scope :by_complement, ->(complement) { where(complement:) }
+  scope :by_addressable, ->(addressable) { where(addressable:) }
 end
 
 # incluo validação pra bairro?
