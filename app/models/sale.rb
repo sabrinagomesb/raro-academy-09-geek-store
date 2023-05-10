@@ -11,4 +11,10 @@ class Sale < ApplicationRecord
   validates :invoice, length: { is: 10 }
   validates :total_price, numericality: { is_greater_than_or_equal_to: 0 }, on: :update
   validates :finished, inclusion: [true, false]
+
+  scope :finished, -> { where(finished: true) }
+  scope :unfinished, -> { where(finished: false) }
+  scope :with_total_price_more_than, ->(amount) { where("total_price > ?", amount.to_f) }
+  scope :with_total_price_less_than, ->(amount) { where("total_price < ?", amount.to_f) }
+  scope :from_store, ->(store_id) { where(store_id:) }
 end

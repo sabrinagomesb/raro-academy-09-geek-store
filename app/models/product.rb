@@ -2,6 +2,7 @@
 
 class Product < ApplicationRecord
   include ModelsValidators
+  include NameScopes
 
   has_many :store_products, dependent: :destroy
   has_many :stores, through: :store_products
@@ -15,4 +16,9 @@ class Product < ApplicationRecord
   validates :name, :description, presence: true
   validates :unit_price, numericality: { is_greater_than_or_equal_to: 0 }
   validate :name_allowed_length
+
+  before_validation :round_unit_price
+
+  scope :costs_more_than, ->(amount) { where("unit_price > ?", amount.to_f) }
+  scope :costs_less_than, ->(amount) { where("unit_price < ?", amount.to_f) }
 end

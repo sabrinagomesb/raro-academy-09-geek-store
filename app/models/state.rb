@@ -2,6 +2,8 @@
 
 class State < ApplicationRecord
   include ModelsValidators
+  include NameScopes
+
   has_many :cities, dependent: :destroy, inverse_of: :state
 
   validates_associated :cities
