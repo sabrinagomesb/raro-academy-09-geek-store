@@ -95,7 +95,7 @@ RSpec.describe Store do
 
   describe 'Scopes' do
     context 'when searching by_cnpj' do
-      it 'returns the correct store' do
+      it 'should returns the correct store' do
         store = create(:store)
         store2 = create(:store)
 
@@ -103,11 +103,11 @@ RSpec.describe Store do
         expect(Store.by_cnpj(store2.cnpj)).to eq([store2])
       end
 
-      it 'returns an empty array when no store is found' do
+      it 'should returns an empty array when no store is found' do
         expect(Store.by_cnpj('12345678912345')).to eq([])
       end
 
-      it 'returns an empty array when cnpj is nil' do
+      it 'should returns an empty array when cnpj is nil' do
         expect(Store.by_cnpj(nil)).to eq([])
       end
     end

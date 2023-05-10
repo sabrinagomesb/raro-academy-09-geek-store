@@ -101,7 +101,7 @@ RSpec.describe Customer do
 
   describe 'Scopes' do
     context 'when searching by_cpf' do
-      it 'returns the correct customer' do
+      it 'should returns the correct customer' do
         customer = create(:customer)
         customer2 = create(:customer)
 
@@ -109,11 +109,11 @@ RSpec.describe Customer do
         expect(Customer.by_cpf(customer2.cpf)).to eq([customer2])
       end
 
-      it 'returns an empty array when no customer is found' do
+      it 'should returns an empty array when no customer is found' do
         expect(Customer.by_cpf('12345678912345')).to eq([])
       end
 
-      it 'returns an empty array when cpf is nil' do
+      it 'should returns an empty array when cpf is nil' do
         expect(Customer.by_cpf(nil)).to eq([])
       end
     end
@@ -134,7 +134,7 @@ RSpec.describe Customer do
         expect(Customer.with_finished_sales).not_to eq([customer1.name])
       end
 
-      it 'returns an empty array when no customer is found' do
+      it 'should returns an empty array when no customer is found' do
         expect(Customer.with_finished_sales).to eq([])
       end
     end
@@ -155,7 +155,7 @@ RSpec.describe Customer do
         expect(Customer.with_unfinished_sales).not_to eq([customer1.name])
       end
 
-      it 'returns an empty array when no customer is found' do
+      it 'should returns an empty array when no customer is found' do
         expect(Customer.with_unfinished_sales).to eq([])
       end
     end

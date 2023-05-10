@@ -103,7 +103,7 @@ RSpec.describe Supplier do
 
   describe 'Scopes' do
     context 'when searching by_cnpj' do
-      it 'returns the correct supplier' do
+      it 'should returns the correct supplier' do
         supplier = create(:supplier)
         supplier2 = create(:supplier)
 
@@ -111,11 +111,11 @@ RSpec.describe Supplier do
         expect(Supplier.by_cnpj(supplier2.cnpj)).to eq([supplier2])
       end
 
-      it 'returns an empty array when no supplier is found' do
+      it 'should returns an empty array when no supplier is found' do
         expect(Supplier.by_cnpj('12345678912345')).to eq([])
       end
 
-      it 'returns an empty array when cnpj is nil' do
+      it 'should returns an empty array when cnpj is nil' do
         expect(Supplier.by_cnpj(nil)).to eq([])
       end
     end

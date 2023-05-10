@@ -46,12 +46,12 @@ RSpec.describe State, type: :model do
   describe 'Callbacks' do
     subject(:state) { described_class.new(name: 'anything', acronym: 'an') }
 
-    it 'must validate that the titled name is saved' do
+    it 'should validate that the titled name is saved' do
       state.save
       expect(state.name).to eq 'anything'.downcase.titleize
     end
 
-    it 'must validate that the acronym is saved in upper case' do
+    it 'should validate that the acronym is saved in upper case' do
       state.save
       expect(state.acronym).to eq 'an'.upcase
     end

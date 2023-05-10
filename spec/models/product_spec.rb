@@ -130,7 +130,7 @@ RSpec.describe Product do
         expect(Product.costs_more_than(42)).to include(product)
       end
 
-      it 'does not return products with unit_price less than 42' do
+      it 'should not return products with unit_price less than 42' do
         product.update(unit_price: 41)
         expect(Product.costs_more_than(42)).not_to include(product)
       end
@@ -144,7 +144,7 @@ RSpec.describe Product do
         expect(Product.costs_less_than(42)).to include(product)
       end
 
-      it 'does not return products with unit_price greater than 42' do
+      it 'should not return products with unit_price greater than 42' do
         product.update(unit_price: 43)
         expect(Product.costs_less_than(42)).not_to include(product)
       end
