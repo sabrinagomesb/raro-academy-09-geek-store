@@ -17,4 +17,7 @@ class Sale < ApplicationRecord
   scope :with_total_price_more_than, ->(amount) { where("total_price > ?", amount.to_f) }
   scope :with_total_price_less_than, ->(amount) { where("total_price < ?", amount.to_f) }
   scope :from_store, ->(store_id) { where(store_id:) }
+  scope :total_finished_sales, -> { where(finished: true).sum(:total_price) }
+
+  accepts_nested_attributes_for :sale_products, allow_destroy: true
 end
