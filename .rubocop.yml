@@ -21,3 +21,9 @@ Style/CombinableLoops:
 
 Rails/ReversibleMigration:
   Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
