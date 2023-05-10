@@ -55,4 +55,69 @@ RSpec.describe Product do
       end
     end
   end
+
+  describe 'Model' do
+    subject(:product) { build(:product) }
+
+    it 'is valid when all attributes are valid' do
+      product.save
+      expect(product.errors).to be_empty
+    end
+
+    it 'is invalid when name is nil' do
+      product.name = nil
+      expect(product).not_to be_valid
+
+      product.save
+      expect(product.errors[:name]).to include("can't be blank")
+    end
+
+    it 'is invalid when description is nil' do
+      product.description = nil
+      expect(product).not_to be_valid
+
+      product.save
+      expect(product.errors[:description]).to include("can't be blank")
+    end
+
+    it 'is invalid when unit_price is nil' do
+      product.unit_price = nil
+      expect(product).not_to be_valid
+
+      product.save
+      expect(product.errors[:unit_price]).to include("can't be blank")
+    end
+
+    it 'is invalid when name is less than 3 characters long' do
+      product.name = 'ab'
+      expect(product).not_to be_valid
+
+      product.save
+      expect(product.errors[:name]).to include('is too short (minimum is 3 characters)')
+    end
+
+    it 'is invalid when name is more than 255 characters long' do
+      product.name = 'a' * 256
+      expect(product).not_to be_valid
+
+      product.save
+      expect(product.errors[:name]).to include('is too long (maximum is 255 characters)')
+    end
+
+    it 'is invalid when unit_price is zero' do
+      product.unit_price = 0
+      expect(product).not_to be_valid
+
+      product.save
+      expect(product.errors[:unit_price]).to include('must be greater than 0')
+    end
+
+    it 'is invalid when unit_price is negative' do
+      product.unit_price = -42
+      expect(product).not_to be_valid
+
+      product.save
+      expect(product.errors[:unit_price]).to include('must be greater than 0')
+    end
+  end
 end
