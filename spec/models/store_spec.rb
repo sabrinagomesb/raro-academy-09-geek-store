@@ -92,4 +92,24 @@ RSpec.describe Store do
       expect(store.errors[:name]).to include('is too long (maximum is 255 characters)')
     end
   end
+
+  describe 'Scopes' do
+    context 'when searching by_cnpj' do
+      it 'returns the correct store' do
+        store = create(:store)
+        store2 = create(:store)
+
+        expect(Store.by_cnpj(store.cnpj)).to eq([store])
+        expect(Store.by_cnpj(store2.cnpj)).to eq([store2])
+      end
+
+      it 'returns an empty array when no store is found' do
+        expect(Store.by_cnpj('12345678912345')).to eq([])
+      end
+
+      it 'returns an empty array when cnpj is nil' do
+        expect(Store.by_cnpj(nil)).to eq([])
+      end
+    end
+  end
 end
