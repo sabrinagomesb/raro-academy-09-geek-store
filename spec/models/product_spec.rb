@@ -120,4 +120,34 @@ RSpec.describe Product do
       expect(product.errors[:unit_price]).to include('must be greater than 0')
     end
   end
+
+  describe 'Scopes' do
+    context 'when searching costs_more_than' do
+      let!(:product) { create(:product) }
+
+      it 'should returns products with unit_price greater than 42' do
+        product.unit_price = 43
+        expect(Product.costs_more_than(42)).to include(product)
+      end
+
+      it 'does not return products with unit_price less than 42' do
+        product.update(unit_price: 41)
+        expect(Product.costs_more_than(42)).not_to include(product)
+      end
+    end
+
+    context 'when searching costs_less_than' do
+      let!(:product) { build(:product) }
+
+      it 'should returns products with unit_price less than 42' do
+        product.update(unit_price: 41)
+        expect(Product.costs_less_than(42)).to include(product)
+      end
+
+      it 'does not return products with unit_price greater than 42' do
+        product.update(unit_price: 43)
+        expect(Product.costs_less_than(42)).not_to include(product)
+      end
+    end
+  end
 end
