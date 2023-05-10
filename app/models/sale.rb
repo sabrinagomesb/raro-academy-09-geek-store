@@ -8,9 +8,9 @@ class Sale < ApplicationRecord
   has_many :products, through: :sale_products
 
   validates :total_price, :invoice, presence: true
-  validates :invoice, length: { is: 10 }
-  validates :total_price, numericality: { is_greater_than_or_equal_to: 0 }, on: :update
-  validates :finished, inclusion: [true, false]
+  validates :invoice, length: { is: 10 }, uniqueness: true, numericality: { only_integer: true }
+  validates :total_price, numericality: { greater_than: 0 }
+  validates :finished, inclusion: { in: [true, false] }, allow_nil: false, on: :update
 
   scope :finished, -> { where(finished: true) }
   scope :unfinished, -> { where(finished: false) }
