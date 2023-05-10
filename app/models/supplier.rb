@@ -8,7 +8,7 @@ class Supplier < ApplicationRecord
   has_one :address, as: :addressable, dependent: :destroy
 
   validates :name, :cnpj, presence: true
-  validates :cnpj, length: { is: 14 }
+  validates :cnpj, length: { is: 14 }, uniqueness: true, numericality: { only_integer: true }
   validates :name, length: { minimum: 3, maximum: 255 }
 
   scope :by_cnpj, ->(cnpj) { where(cnpj:) }
