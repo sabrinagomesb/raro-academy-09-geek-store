@@ -16,4 +16,5 @@ class Sale < ApplicationRecord
   scope :unfinished, -> { where(finished: false) }
   scope :with_total_price_more_than, ->(amount) { where("total_price > ?", amount.to_f) }
   scope :with_total_price_less_than, ->(amount) { where("total_price < ?", amount.to_f) }
+  scope :from_store, ->(store_id) { where(store_id:) }
 end
