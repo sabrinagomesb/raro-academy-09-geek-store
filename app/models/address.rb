@@ -11,7 +11,7 @@ class Address < ApplicationRecord
 
   validates :zip_code, :public_place, :number, :neighborhood, presence: true
   validates :zip_code, length: { is: 8 }
-  validates :number, length: { minimum: 1, maximum: 15 }
+  validates :number, length: { maximum: 15 }
   validates :reference, :complement, allow_blank: true, length: { maximum: 255 }
 end
 
