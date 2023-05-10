@@ -8,7 +8,7 @@ class Customer < ApplicationRecord
 
   validates :name, :cpf, presence: true
 
-  validates :cpf, length: { is: 11 }
+  validates :cpf, length: { is: 11 }, uniqueness: true, numericality: { only_integer: true }
   validates :name, length: { minimum: 3, maximum: 255 }
 
   scope :with_sales, -> { joins(:sales).uniq }
