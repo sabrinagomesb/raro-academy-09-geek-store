@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe NameScopes do
   describe "Method name_contains" do
     let!(:state1) { FactoryBot.create(:state, name: "Minas Gerais") }

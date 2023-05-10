@@ -7,7 +7,7 @@ RSpec.describe City, type: :model do
     it { is_expected.to belong_to(:state).inverse_of(:cities) }
   end
 
-  describe 'Validation definitions' do
+  describe 'Validations' do
     subject(:city) { build(:city) }
 
     it { is_expected.to validate_presence_of(:name) }

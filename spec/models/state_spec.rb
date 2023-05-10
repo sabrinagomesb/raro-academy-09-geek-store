@@ -7,7 +7,7 @@ RSpec.describe State, type: :model do
     it { is_expected.to have_many(:cities).dependent(:destroy).inverse_of(:state) }
   end
 
-  describe 'Validation definitions' do
+  describe 'Validations' do
     subject(:state) { build(:state) }
 
     it { is_expected.to validate_presence_of(:name) }
