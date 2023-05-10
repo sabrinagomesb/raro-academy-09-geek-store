@@ -9,7 +9,6 @@ FactoryBot.define do
     neighborhood { Faker::Address.community }
     reference { Faker::Address.secondary_address }
     complement { Faker::Address.secondary_address }
-    addressable_id { create(:customer).id }
-    addressable_type { 'Customer' }
+    addressable { create(:customer) }
   end
 end
