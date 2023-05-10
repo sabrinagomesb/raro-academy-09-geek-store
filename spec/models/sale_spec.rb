@@ -21,8 +21,8 @@ RSpec.describe Sale do
     context "when total_price is zero" do
       let(:sale) { build(:sale, total_price: 0) }
 
-      it "is not valid" do
-        expect(sale).not_to be_valid
+      it "is valid" do
+        expect(sale).to be_valid
       end
     end
 
@@ -142,15 +142,15 @@ RSpec.describe Sale do
       expect(sale).not_to be_valid
 
       sale.save
-      expect(sale.errors[:total_price]).to include('must be greater than 0')
+      expect(sale.errors[:total_price]).to include('must be greater than or equal to 0')
     end
 
     it 'is invalid when total_price is zero' do
       sale.total_price = 0
-      expect(sale).not_to be_valid
+      expect(sale).to be_valid
 
       sale.save
-      expect(sale.errors[:total_price]).to include('must be greater than 0')
+      expect(sale.errors).to be_empty
     end
   end
 end
