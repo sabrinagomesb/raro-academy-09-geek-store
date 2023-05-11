@@ -1,16 +1,15 @@
 # frozen_string_literal: true
 
 class Supplier < ApplicationRecord
-  include ModelsValidators
   include NameScopes
 
   has_many :product_suppliers, dependent: :destroy
   has_many :products, through: :product_suppliers
-  has_one :addresses, as: :addressable, dependent: :destroy
+  has_one :address, as: :addressable, dependent: :destroy
 
   validates :name, :cnpj, presence: true
-  validates :cnpj, length: { is: 14 }
-  validate :name_allowed_length
+  validates :cnpj, length: { is: 14 }, uniqueness: true, numericality: { only_integer: true }
+  validates :name, length: { minimum: 3, maximum: 255 }
 
   scope :by_cnpj, ->(cnpj) { where(cnpj:) }
 end

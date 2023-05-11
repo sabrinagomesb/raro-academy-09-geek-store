@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Product < ApplicationRecord
-  include ModelsValidators
   include NameScopes
 
   has_many :store_products, dependent: :destroy
@@ -13,11 +12,9 @@ class Product < ApplicationRecord
   has_many :sale_products, dependent: :destroy
   has_many :sales, through: :sale_products
 
-  validates :name, :description, presence: true
-  validates :unit_price, numericality: { is_greater_than_or_equal_to: 0 }
-  validate :name_allowed_length
-
-  before_validation :round_unit_price
+  validates :name, :description, :unit_price, presence: true
+  validates :unit_price, numericality: { greater_than: 0 }
+  validates :name, length: { minimum: 3, maximum: 255 }
 
   scope :costs_more_than, ->(amount) { where("unit_price > ?", amount.to_f) }
   scope :costs_less_than, ->(amount) { where("unit_price < ?", amount.to_f) }
