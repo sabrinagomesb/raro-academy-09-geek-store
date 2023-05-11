@@ -98,4 +98,66 @@ RSpec.describe Customer do
       expect(customer.errors[:cpf]).to include('is not a number')
     end
   end
+
+  describe 'Scopes' do
+    context 'when searching by_cpf' do
+      it 'should returns the correct customer' do
+        customer = create(:customer)
+        customer2 = create(:customer)
+
+        expect(Customer.by_cpf(customer.cpf)).to eq([customer])
+        expect(Customer.by_cpf(customer2.cpf)).to eq([customer2])
+      end
+
+      it 'should returns an empty array when no customer is found' do
+        expect(Customer.by_cpf('12345678912345')).to eq([])
+      end
+
+      it 'should returns an empty array when cpf is nil' do
+        expect(Customer.by_cpf(nil)).to eq([])
+      end
+    end
+
+    context 'when searching with_finished_sales' do
+      let(:customer) { create(:customer) }
+      let(:customer1) { create(:customer) }
+      let(:store) { create(:store) }
+      let(:sale) { create(:sale, store:, customer:) }
+
+      it 'should returns the correct customers' do
+        sale.update(finished: true)
+        expect(Customer.with_finished_sales).to eq([customer.name])
+      end
+
+      it 'should not returns the incorrect customers' do
+        sale.update(finished: true)
+        expect(Customer.with_finished_sales).not_to eq([customer1.name])
+      end
+
+      it 'should returns an empty array when no customer is found' do
+        expect(Customer.with_finished_sales).to eq([])
+      end
+    end
+
+    context 'when searching with_unfinished_sales' do
+      let(:customer) { create(:customer) }
+      let(:customer1) { create(:customer) }
+      let(:store) { create(:store) }
+      let(:sale) { create(:sale, store:, customer:) }
+
+      it 'should returns the correct customers' do
+        sale.update(finished: false)
+        expect(Customer.with_unfinished_sales).to eq([customer.name])
+      end
+
+      it 'should not returns the incorrect customers' do
+        sale.update(finished: false)
+        expect(Customer.with_unfinished_sales).not_to eq([customer1.name])
+      end
+
+      it 'should returns an empty array when no customer is found' do
+        expect(Customer.with_unfinished_sales).to eq([])
+      end
+    end
+  end
 end

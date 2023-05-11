@@ -33,3 +33,6 @@ Lint/AmbiguousBlockAssociation:
 
 Layout/LineLength:
   Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false

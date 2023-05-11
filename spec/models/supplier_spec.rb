@@ -100,4 +100,24 @@ RSpec.describe Supplier do
       expect(supplier.errors[:name]).to include('is too long (maximum is 255 characters)')
     end
   end
+
+  describe 'Scopes' do
+    context 'when searching by_cnpj' do
+      it 'should returns the correct supplier' do
+        supplier = create(:supplier)
+        supplier2 = create(:supplier)
+
+        expect(Supplier.by_cnpj(supplier.cnpj)).to eq([supplier])
+        expect(Supplier.by_cnpj(supplier2.cnpj)).to eq([supplier2])
+      end
+
+      it 'should returns an empty array when no supplier is found' do
+        expect(Supplier.by_cnpj('12345678912345')).to eq([])
+      end
+
+      it 'should returns an empty array when cnpj is nil' do
+        expect(Supplier.by_cnpj(nil)).to eq([])
+      end
+    end
+  end
 end
