@@ -13,4 +13,15 @@ class Store < ApplicationRecord
   validates :name, length: { minimum: 3, maximum: 255 }
 
   scope :by_cnpj, ->(cnpj) { where(cnpj:) }
+
+  def debit_product_stock(product, amount)
+    store_product = store_products.find_by(product_id: product.id)
+    store_product.decrease_amount(amount)
+  end
+
+  def product_amount_in_stock?(product)
+    store_product = store_products.find_by(product_id: product.id)
+    sale_product = sales.find_by(product_id: product.id)
+    store_product.amount >= sale_product.amount
+  end
 end
