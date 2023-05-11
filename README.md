@@ -1,3 +1,17 @@
+- [Raro Geek Store - Banco de Dados](#raro-geek-store---banco-de-dados)
+  - [Objetivos](#objetivos)
+  - [Formato de entrega](#formato-de-entrega)
+  - [Tomadas de Decisão](#tomadas-de-decisão)
+    - [Diagrama Entidade-Relacionamento | Diagrama Lógico Relacional](#diagrama-entidade-relacionamento--diagrama-lógico-relacional)
+    - [SGBD | Dependências](#sgbd--dependências)
+    - [Inicialização do projeto | Migrations e seus modificadores](#inicialização-do-projeto--migrations-e-seus-modificadores)
+    - [Associações e Validações nos Models](#associações-e-validações-nos-models)
+    - [Scopes e Callbacks nos Models](#scopes-e-callbacks-nos-models)
+    - [Seeds](#seeds)
+    - [Testes - Bônus](#testes---bônus)
+    - [Desafios e dificuldades](#desafios-e-dificuldades)
+  - [Setup](#setup)
+
 # Raro Geek Store - Banco de Dados
 
 Projeto de modelagem de banco de dados incluindo models, migrations e seus modificadores, associações de relacionamentos, validações, scopes e callbacks. Teve como base o problema apresentado no exercício da semana 09 da turma de Ruby on Rails - Raro Academy, que teve "Models" como tema.
@@ -95,23 +109,46 @@ Durante essa etapa foram realizadas algumas alterações, como a adição e reno
 
 ### Associações e Validações nos Models
 
+Em cada model foi adicionado suas associações de relacionamento. Nesse ponto, o Diagrama Lógico Relacional serviu mais uma vez como apoio para visualização melhor das estruturas das tabelas. Foi utilizado o _inverse_of_ e _dependet destroy_ em algumas associações e _through_ nas tabelas intermediárias.
+
+As validações foram adicionadas em cada coluna de cada tabela, exceto nas colunas que armazenam _foreign keys_. Seguem alguns tipos de validações utilizadas: _length_; _presence_; _inclusion_ (para valores boleanos); _numeracality_ com parâmetros e _uniqueness_.
+
 ### Scopes e Callbacks nos Models
+
+- **Scopes**
+  Ao iniciar a identificação das _queries_ que possivelmente seriam mais utilizadas, foi percebido que algumas se repetiram para busca do campo "name" que está presente em algumas tabelas. Por isso, foi criado um módulo chamado de "NameScopes". Esse módulo está "include" em todos os models que contém "name", dessa forma os scopes declarados em "NameScopes" ficam disponíveis automaticamente.
+
+- **Callbacks**
+  Foi levado em consideração algumas regras de negócios identificadas no enunciado para implementação dos callbacks, são elas:
+
+  1. Cada loja pode vender todos ou alguns dos produtos cadastrados;
+  2. Cada loja deve realizar o controle de estoque, ou seja, controlar a quantidade disponível para os produtos que ela vende;
+  3. Um produto poderá ser vendido apenas se a loja possui-lo e se a quantidade desejada é suficiente;
+  4. Após a conclusão de uma venda, os estoques dos produtos para loja precisam ser atualizados.
+
+  Os models _Store_ e _StoreModel_ foram os responsáveis pelo gerenciamento de estoque. Enquanto _Sale_ e _SaleProduct_ foram responsáveis pela regra de negócio de controle de suas próprias vendas.
 
 ### Seeds
 
 Como citado anteriormente, foi utilizado a gem Faker para popular o seed da aplicação. Todas as tabelas foram populadas. Abaixo algumas delas podem ser visualizadas. Conectando o banco de dados no [DBeaver](https://dbeaver.io/) ou outro client SQL é possível visualizar todas as tabelas e suas informações.
 
-<div align="center">
- <img src="./.gitlab/screenshots/table_addresses.png " alt="preview exerc" width="33%">
- <img src="./.gitlab/screenshots/table_customers.png " alt="preview exerc" width="30%">
- <img src="./.gitlab/screenshots/table_products.png " alt="preview exerc" width="33%">
-</div>
+  <div align="center">
+    <img src="./.gitlab/screenshots/table_addresses.png " alt="preview exerc" width="33%">
+    <img src="./.gitlab/screenshots/table_customers.png " alt="preview exerc" width="30%">
+    <img src="./.gitlab/screenshots/table_products.png " alt="preview exerc" width="33%">
+  </div>
 
 ### Testes - Bônus
 
-Essa etapa foi iniciada com o intuito apenas de praticar o que foi visto nas últimas aulas. Os primeiros testes foram replicados do que o professor fez em aula, principalmente para os módulos State e City, realizando apenas poucas adaptações. A partir de então foi possível replicar a mesma lógica para os demais models, separando por _describes_ de relacionamentos, validações, escopes e callbacks.
+Essa etapa foi iniciada com o intuito apenas de praticar o que foi visto nas últimas aulas. Os primeiros testes foram replicados do que o professor fez em aula, principalmente para os módulos State e City, realizando apenas poucas adaptações. A partir de então foi possível implementar os testes nos demais models, separando por _describes_ de relacionamentos, validações, escopes e callbacks. Em alguns momentos foi utilizado TDD, mas um ponto de melhoria do projeto é a implementação de mais testes para cobertura total da aplicação.
+
+![Testes](./.gitlab/screenshots/tests.png)
 
 ### Desafios e dificuldades
+
+- Um ponto de dificuldade foi a utilização do _git_ de uma forma mais dinâmica. Diferente de como trabalhei com ele no exercício da semana 6, alterando de _branch_ apenas quando todas as implementações fossem finalizadas, dessa vez trabalhei mudando de branches antes de finalizá-las completamente. Por exemplo, enquanto estava trabalhando na _branch_ para desenvolver os callbacks, troquei para _branch_ de teste para tentar implementar callbacks usando TDD. Por isso, em alguns momentos precisei realizar merges entre branches sem passar pela _main_, o que gerou alguns conflitos. Foi um desafio novo tratar esses conflitos do _git_ e que, por consequência, proporcionou uma nova experiência na utilização da ferramenta.
+
+- A implementação dos callbacks foi um ponto de grande dificuldade na execução geral do exercício. Precisei dar alguns passos para trás, compreender melhor as regras de negócio a partir do enunciado, mas ainda assim tive dificuldades para "navegar" entre as relações das tabelas intermediárias, tratar os dados do tipo _float_ e validar o funcionamento das funções implementadas.
 
 ## Setup
 
