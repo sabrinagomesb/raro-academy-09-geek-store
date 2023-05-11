@@ -14,14 +14,45 @@ class Store < ApplicationRecord
 
   scope :by_cnpj, ->(cnpj) { where(cnpj:) }
 
-  def debit_product_stock(product, amount)
-    store_product = store_products.find_by(product_id: product.id)
+  def check_product_stock(product_id)
+    store_product = store_products.find_by(product_id:)
+
+    if store_product.nil?
+      errors.add(:base, "Produto não encontrado")
+      return false
+    end
+
+    store_product.amount
+  end
+
+  def decrease_product_amount(product_id, amount)
+    store_product = store_products.find_by(product_id:)
+
+    if store_product.nil?
+      errors.add(:base, "Produto não encontrado")
+      return false
+    end
+
+    if store_product.amount < amount
+      errors.add(:amount, "Quantidade insuficiente")
+      return false
+    end
     store_product.decrease_amount(amount)
   end
 
-  def product_amount_in_stock?(product)
-    store_product = store_products.find_by(product_id: product.id)
-    sale_product = sales.find_by(product_id: product.id)
-    store_product.amount >= sale_product.amount
+  def increase_product_amount(product_id, amount)
+    store_product = store_products.find_by(product_id:)
+
+    if store_product.nil?
+      errors.add(:base, "Produto não encontrado")
+      return false
+    end
+
+    if amount.negative?
+      errors.add(:base, "Quantidade inválida")
+      return false
+    end
+
+    store_product.increase_amount(amount)
   end
 end
