@@ -16,8 +16,6 @@ class Customer < ApplicationRecord
   scope :with_finished_sales, -> { joins(:sales).where(sales: { finished: true }).pluck(:name).uniq }
   scope :with_unfinished_sales, -> { joins(:sales).where(sales: { finished: false }).pluck(:name).uniq }
 
-  accepts_nested_attributes_for :address, allow_destroy: true
-
   before_destroy :check_sales_presence
 
   private
