@@ -1,6 +1,6 @@
 # ISSUES
 
-- Elaborar o Diagrama ER
+- Elaborar o Diagrama ER - Concenitual
 - Elaborar o Diagrama ER - Modelo Lógico Relacional
 - Iniciar projeto Rails utilizando postgres
   - Instalar robocop e demais dependencias
