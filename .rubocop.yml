@@ -27,3 +27,9 @@ Metrics/BlockLength:
 
 Rails/UniqueValidationWithoutIndex:
   Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+
+Layout/LineLength:
+  Enabled: false
