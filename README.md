@@ -74,16 +74,22 @@ Foi utilizada também a gem [Rubocop-Rails](https://github.com/rubocop/rubocop-r
 ### Inicialização do projeto | Migrations e seus modificadores
 
 O projeto foi inicializado usando o comando: `rails new raro_geek_store -d postgresql -j esbuild -c tailwind`.
-O passo seguinte foi configurar o PostgreSQL, inicialmente utilizando apenas login e senha, mas posteriormente foram configuradas variáveis de ambiente para acesso (estão detalhadas no fim da documentação).
+O passo seguinte foi configurar o PostgreSQL, inicialmente utilizando apenas login e senha, mas posteriormente foram configuradas variáveis de ambiente para acesso no arquivo `database.yml` :
+
+```ruby
+username: <%= ENV['POSTGRES_USER'] %>
+password: <%= ENV['POSTGRES_PASSWORD'] %>
+host: <%= ENV['POSTGRES_HOST'] %>
+```
 
 Após a inicialização do projeto os models começaram a ser criados e as migrations por consequência. Nesse ponto foi utilizado o Diagrama Lógico Relacional para basear quais tabelas deveriam ser criadas primeiro de acordo com suas relações. As referências das tabelas, atributos e seus tipos foram passados no comando de criação.
 
 Alguns modificadores foram utilizados, entre eles:
 
-    - **limit** - 255 para string padrão e valores personalizados para os campos necessários como CNPJ, CPF, invoice, etc;
-    - **null** - false para todos os campos, exceto _complement_ e _reference_ da tabela Addresses e _finished_at_ da tabela Sales;
-    - **unique** - definido como true para os campos CPF, CNPJ e invoice;
-    - **default** - definido como 0 para coluna _amount_ da tabela StoreProducts e definido como 1 para coluna _amount_ da tabela SaleProducts (para uma venda existir precisa ter pelo menos 1 produto).
+- **limit** - 255 para string padrão e valores personalizados para os campos necessários como CNPJ, CPF, invoice, etc;
+- **null** - false para todos os campos, exceto _complement_ e _reference_ da tabela Addresses e _finished_at_ da tabela Sales;
+- **unique** - definido como true para os campos CPF, CNPJ e invoice;
+- **default** - definido como 0 para coluna _amount_ da tabela StoreProducts e definido como 1 para coluna _amount_ da tabela SaleProducts (para uma venda existir precisa ter pelo menos 1 produto).
 
 Durante essa etapa foram realizadas algumas alterações, como a adição e renomeação de colunas, inclusão de constraint e remoção de valor default.
 
@@ -93,4 +99,46 @@ Durante essa etapa foram realizadas algumas alterações, como a adição e reno
 
 ### Seeds
 
-### Testes
+Como citado anteriormente, foi utilizado a gem Faker para popular o seed da aplicação. Todas as tabelas foram populadas. Abaixo algumas delas podem ser visualizadas. Conectando o banco de dados no [DBeaver](https://dbeaver.io/) ou outro client SQL é possível visualizar todas as tabelas e suas informações.
+
+<div align="center">
+ <img src="./.gitlab/screenshots/table_addresses.png " alt="preview exerc" width="33%">
+ <img src="./.gitlab/screenshots/table_customers.png " alt="preview exerc" width="30%">
+ <img src="./.gitlab/screenshots/table_products.png " alt="preview exerc" width="33%">
+</div>
+
+### Testes - Bônus
+
+Essa etapa foi iniciada com o intuito apenas de praticar o que foi visto nas últimas aulas. Os primeiros testes foram replicados do que o professor fez em aula, principalmente para os módulos State e City, realizando apenas poucas adaptações. A partir de então foi possível replicar a mesma lógica para os demais models, separando por _describes_ de relacionamentos, validações, escopes e callbacks.
+
+### Desafios e dificuldades
+
+## Setup
+
+O projeto foi realizado utilizando as versões:
+
+- ruby 3.2.1;
+- rails 7.0.4.3.
+
+Antes de iniciar a aplicação, é necessário exportar as variáveis de ambientes no terminal, de acordo com seu acesso pessoal ao PostgreSQL:
+
+```bash
+export POSTGRES_USER=SEU_USUARIO
+export POSTGRES_PASSWORD=SUA_SENHA
+export POSTGRES_HOST=localhost
+```
+
+Recomenda-se também a execução da seguinte sequência de comandos:
+
+```bash
+bundle install
+rails db:create
+rails db:migrate
+rails db:seed
+```
+
+Para executar os testes, rodar o seguinte comando:
+
+```bash
+rspec
+```
