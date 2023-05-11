@@ -21,21 +21,25 @@ class Sale < ApplicationRecord
 
   accepts_nested_attributes_for :sale_products, allow_destroy: true
 
-  before_create :set_total_price_to_zero
+  before_save :update_total_price
 
   def set_sale_was_finished
-    all_products_available = sale_products.all? { |sp| sp.product_amount_in_stock(sp.product) == true }
-
-    return unless all_products_available
-
-    sale_products.each do |sale_product|
-      store.debit_product_stock(sale_product.product, sale_product.amount)
+    if finished
+      errors.add(:base, "Venda já foi finalizada")
+      return
     end
 
-    self.finished = true
-    self.finished_at = Time.zone.now
-    self.total_price = find_total_price
-    save!
+    if all_products_available_in_stock?
+      sale_products.each do |sale_product|
+        store_product = StoreProduct.find_by(store_id: store_id, product_id: sale_product.product_id)
+        store_product.decrease_amount(sale_product.amount)
+      end
+
+      self.finished = true
+      self.finished_at = Time.zone.now
+      self.total_price = find_total_price
+      save!
+    end
   end
 
   def update_total_price
@@ -44,8 +48,24 @@ class Sale < ApplicationRecord
 
   private
 
-  def set_total_price_to_zero
-    self.total_price = 0
+  def all_products_available_in_stock?
+    products_available_in_stock = []
+
+    all_products = sale_products.map(&:product)
+    all_products.map do |product|
+      if store.check_product_stock(product)
+        products_available_in_stock << true
+      else
+        products_available_in_stock << false
+      end
+    end
+
+    if products_available_in_stock.include?(false)
+      errors.add(:base, "algum produto não possui estoque suficiente")
+      return false
+    end
+
+    return true
   end
 
   def find_total_price
